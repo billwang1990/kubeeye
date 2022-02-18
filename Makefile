@@ -1,6 +1,6 @@
 .PHONY: ke
 
-BINARY="kubeeye"
+BINARY="kubedoctor"
 GOBIN=$(shell go env GOPATH)/bin
 fmt:
 	gofmt -w ./pkg ./cmd
