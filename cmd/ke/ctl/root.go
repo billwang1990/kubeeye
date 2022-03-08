@@ -22,8 +22,8 @@ import (
 var Verbose bool
 
 var rootCmd = &cobra.Command{
-	Use:   "audit",
-	Short: "KubeEye finds various problems on Kubernetes cluster.",
+	Use:   "",
+	Short: "扫描集群中的风险项",
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
