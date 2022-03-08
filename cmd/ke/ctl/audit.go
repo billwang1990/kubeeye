@@ -42,7 +42,7 @@ func init() {
 	rootCmd.AddCommand(auditCmd)
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 
-	rootCmd.PersistentFlags().StringVarP(&KubeConfig, "config", "f", "", "可指定 kubeconfig 路径，默认$HOME/.kube/config")
+	rootCmd.PersistentFlags().StringVarP(&KubeConfig, "config", "f", "", "指定 kubeconfig 路径")
 	// auditCmd.PersistentFlags().StringVarP(&additionalregoruleputh, "additional-rego-rule-path", "p", "", "Specify the path of additional rego rule files directory.")
 	auditCmd.PersistentFlags().StringVarP(&output, "output", "o", "", "可选 JSON 和 CSV为输出格式")
 }
