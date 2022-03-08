@@ -79,7 +79,7 @@ func ValidationResults(ctx context.Context, kubernetesClient *kube.KubernetesCli
 	k8sResources := <-kube.K8sResourcesChan
 
 	logs.Info("getting and merging the Rego rules")
-	regoRulesChan := regorules.MergeRegoRules(ctx, regorules.GetDefaultRegofile("rules"), regorules.GetAdditionalRegoRulesfiles(additionalregoruleputh))
+	regoRulesChan := regorules.MergeRegoRules(ctx, regorules.GetDefaultRegofile("danger_rules"), regorules.GetAdditionalRegoRulesfiles(additionalregoruleputh))
 
 	logs.Info("starting audit kubernetes resources")
 	RegoRulesValidateChan := MergeRegoRulesValidate(ctx, regoRulesChan,
