@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-//go:embed warning_rules
+//go:embed danger_rules
 var defaultRegoRules embed.FS
 
 // GetRegoRules get rego rules , put it into the channel RegoRulesListChan.
