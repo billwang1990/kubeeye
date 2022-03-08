@@ -27,6 +27,7 @@ var rootCmd = &cobra.Command{
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
+	DisableFlagsInUseLine: true,
 }
 
 func Execute() {
