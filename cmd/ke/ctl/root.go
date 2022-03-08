@@ -31,14 +31,12 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 	var helpCmd = &cobra.Command{
-		Use: "audit",
+		Use: "",
 		Short: "使用audit命令快速列出集群问题",
 	}
 	rootCmd.SetHelpCommand(
 		helpCmd,
 	)
-	rootCmd.SetHelpFunc(nil)
-	rootCmd.SetHelpTemplate("")
 
 
 	if err := rootCmd.Execute(); err != nil {
