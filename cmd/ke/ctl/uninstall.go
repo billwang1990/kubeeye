@@ -40,6 +40,6 @@ var uninstallNPD = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(uninstallCmd)
-	uninstallCmd.AddCommand(uninstallNPD)
+	// rootCmd.AddCommand(uninstallCmd)
+	// uninstallCmd.AddCommand(uninstallNPD)
 }

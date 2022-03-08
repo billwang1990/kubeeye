@@ -43,8 +43,8 @@ var installNPD = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(installCmd)
-	installCmd.AddCommand(installNPD)
+	// rootCmd.AddCommand(installCmd)
+	// installCmd.AddCommand(installNPD)
 
 	// Here you will define your flags and configuration settings.
 }
