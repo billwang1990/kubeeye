@@ -64,7 +64,7 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, na
 	if namespace != "" {
 		includedNamespaces := strings.Split(namespace, ",")
 		for _, include := range includedNamespaces {
-			fieldSelectorString += ",metadata.namespace==" + include
+			fieldSelectorString += ",metadata.namespace=" + include
 		}
 	}
 	fmt.Printf("fieldSelectorString is  2 %s", fieldSelectorString)
