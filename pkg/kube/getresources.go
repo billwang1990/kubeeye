@@ -18,6 +18,7 @@ import (
 	"context"
 	"fmt"
 	"time"
+	"strings"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
@@ -26,9 +27,9 @@ import (
 )
 
 // GetK8SResourcesProvider get kubeconfig by KubernetesAPI, get kubernetes resources by GetK8SResources.
-func GetK8SResourcesProvider(ctx context.Context, kubernetesClient *KubernetesClient) error {
+func GetK8SResourcesProvider(ctx context.Context, kubernetesClient *KubernetesClient, namespace string) error {
 
-	GetK8SResources(ctx, kubernetesClient)
+	GetK8SResources(ctx, kubernetesClient, namespace)
 	return nil
 }
 
@@ -36,7 +37,7 @@ func GetK8SResourcesProvider(ctx context.Context, kubernetesClient *KubernetesCl
 //Add method to excluded namespaces in GetK8SResources.
 
 // GetK8SResources get kubernetes resources by GroupVersionResource, put the resources into the channel K8sResourcesChan, return error.
-func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient) {
+func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, namespace string) {
 	kubeconfig := kubernetesClient.KubeConfig
 	clientSet := kubernetesClient.ClientSet
 	dynamicClient := kubernetesClient.DynamicClient
@@ -50,6 +51,7 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient) {
 	var statefulsetsCount int
 	var daemonsetsCount int
 	var workloadsCount int
+	
 
 	// TODO
 	// Implement method to excluded namespace.
@@ -58,6 +60,13 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient) {
 	//for _, excludedNamespace := range excludedNamespaces {
 	//	fieldSelectorString += ",metadata.namespace!=" + excludedNamespace
 	//}
+	if namespace != "" {
+		includedNamespaces := strings.Split(namespace, ",")
+		for _, include := range includedNamespaces {
+			fieldSelectorString += ",metadata.namespace==" + include
+		}
+	}
+
 	fieldSelector, _ := fields.ParseSelector(fieldSelectorString)
 	listOptsExcludedNamespace := metav1.ListOptions{
 		FieldSelector: fieldSelectorString,

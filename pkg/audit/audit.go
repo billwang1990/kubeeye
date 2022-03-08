@@ -32,7 +32,7 @@ var (
 	certexp   = "data.kubeeye_certexpiration"
 )
 
-func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh string, output string) error {
+func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh string, output string, namespace string) error {
 	kubeConfig, err := kube.GetKubeConfig(kubeConfigPath)
 	if err != nil {
 		return errors.Wrap(err, "Failed to load config file")
@@ -44,7 +44,7 @@ func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh 
 		return err
 	}
 
-	_, validationResultsChan := ValidationResults(ctx, clients, additionalregoruleputh)
+	_, validationResultsChan := ValidationResults(ctx, clients, additionalregoruleputh, namespace)
 
 	// Set the output mode, support default output JSON and CSV.
 	switch output {
@@ -64,13 +64,13 @@ func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh 
 	return nil
 }
 
-func ValidationResults(ctx context.Context, kubernetesClient *kube.KubernetesClient, additionalregoruleputh string) (kube.K8SResource, <-chan []v1alpha1.AuditResults) {
+func ValidationResults(ctx context.Context, kubernetesClient *kube.KubernetesClient, additionalregoruleputh string, namespace string) (kube.K8SResource, <-chan []v1alpha1.AuditResults) {
 	logs := log.FromContext(ctx)
 
 	// get kubernetes resources and put into the channel.
 	logs.Info("starting get kubernetes resources")
 	go func(ctx context.Context, kubernetesClient *kube.KubernetesClient) {
-		err := kube.GetK8SResourcesProvider(ctx, kubernetesClient)
+		err := kube.GetK8SResourcesProvider(ctx, kubernetesClient, namespace)
 		if err != nil {
 			logs.Error(err, "failed to get kubernetes resources")
 		}

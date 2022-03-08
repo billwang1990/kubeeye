@@ -26,12 +26,13 @@ import (
 var KubeConfig string
 var additionalregoruleputh string
 var output string
+var namespace string
 
 var auditCmd = &cobra.Command{
 	Use:   "audit",
 	Short: "扫描kubernetes集群中的风险项",
 	Run: func(cmd *cobra.Command, args []string) {
-		err := audit.Cluster(cmd.Context(), KubeConfig, additionalregoruleputh, output)
+		err := audit.Cluster(cmd.Context(), KubeConfig, additionalregoruleputh, output, namespace)
 		if err != nil {
 			glog.Fatalf("run audit failed with error: %v", err)
 		}
@@ -45,4 +46,5 @@ func init() {
 	auditCmd.PersistentFlags().StringVarP(&KubeConfig, "config", "f", "", "可指定 kubeconfig 路径，默认$HOME/.kube/config")
 	// auditCmd.PersistentFlags().StringVarP(&additionalregoruleputh, "additional-rego-rule-path", "p", "", "Specify the path of additional rego rule files directory.")
 	auditCmd.PersistentFlags().StringVarP(&output, "output", "o", "", "可选 JSON 和 CSV为输出格式")
+	auditCmd.PersistentFlags().StringVarP(&namespace, "namespace", "n", "", "可指定namespace")
 }
