@@ -26,6 +26,9 @@ var rootCmd = &cobra.Command{
 	Short: "KubeEye finds various problems on Kubernetes cluster.",
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
+		DisableDescriptions: true,
+		HiddenDefaultCmd: true,
+		DisableNoDescFlag: true,
 	},
 	DisableFlagsInUseLine: true,
 }
