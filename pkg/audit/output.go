@@ -65,7 +65,7 @@ func JSONOutput(receiver <-chan []v1alpha1.AuditResults) error {
 	if writeErr != nil {
 		return writeErr
 	}
-	fmt.Printf("\033[1;36;49mThe result is exported to audit_result.json, please check it for audit result.\033[0m\n")
+	fmt.Printf("\033[1;36;49m请查阅审计报告 audit_result.json .\033[0m\n")
 	return nil
 }
 
@@ -125,6 +125,6 @@ func CSVOutput(receiver <-chan []v1alpha1.AuditResults) error {
 	if err := w.WriteAll(contents); err != nil {
 		return err
 	}
-	fmt.Printf("\033[1;36;49mThe result is exported to audit_result.CSV, please check it for audit result.\033[0m\n")
+	fmt.Printf("\033[1;36;49m请查阅审计报告audit_result.CSV.\033[0m\n")
 	return nil
 }
