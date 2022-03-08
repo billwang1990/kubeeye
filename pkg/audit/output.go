@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"io/ioutil"
 	"text/tabwriter"
 
 	"github.com/kubesphere/kubeeye/apis/kubeeye/v1alpha1"
@@ -39,6 +40,14 @@ func defaultOutput(receiver <-chan []v1alpha1.AuditResults) error {
 
 func JSONOutput(receiver <-chan []v1alpha1.AuditResults) error {
 	var output []v1alpha1.AuditResults
+	filename := "audit_result.json"
+	// create csv file
+	newFile, err := os.Create(filename)
+	if err != nil {
+		return errors.Wrap(err, "create file audit_result.json failed.")
+	}
+	defer newFile.Close()
+
 	for r := range receiver {
 		for _, results := range r {
 			output = append(output, results)
@@ -47,19 +56,25 @@ func JSONOutput(receiver <-chan []v1alpha1.AuditResults) error {
 
 	// output json
 	jsonOutput, err := json.MarshalIndent(output, "", "    ")
+	
 	if err != nil {
 		return err
 	}
 	fmt.Println(string(jsonOutput))
+	writeErr := ioutil.WriteFile(filename, jsonOutput, 0644)
+	if writeErr != nil {
+		return writeErr
+	}
+	fmt.Printf("\033[1;36;49mThe result is exported to audit_result.json, please check it for audit result.\033[0m\n")
 	return nil
 }
 
 func CSVOutput(receiver <-chan []v1alpha1.AuditResults) error {
-	filename := "kubeEyeAuditResult.csv"
+	filename := "audit_result.csv"
 	// create csv file
 	newFile, err := os.Create(filename)
 	if err != nil {
-		return errors.Wrap(err, "create file kubeEyeAuditResult.csv failed.")
+		return errors.Wrap(err, "create file audit_result.csv failed.")
 	}
 
 	defer newFile.Close()
@@ -110,6 +125,6 @@ func CSVOutput(receiver <-chan []v1alpha1.AuditResults) error {
 	if err := w.WriteAll(contents); err != nil {
 		return err
 	}
-	fmt.Printf("\033[1;36;49mThe result is exported to kubeEyeAuditResult.CSV, please check it for audit result.\033[0m\n")
+	fmt.Printf("\033[1;36;49mThe result is exported to audit_result.CSV, please check it for audit result.\033[0m\n")
 	return nil
 }
