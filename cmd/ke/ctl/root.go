@@ -26,16 +26,16 @@ var rootCmd = &cobra.Command{
 	Short: "KubeEye finds various problems on Kubernetes cluster.",
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
-		DisableDescriptions: true,
-		HiddenDefaultCmd: true,
-		DisableNoDescFlag: true,
 	},
-	DisableFlagsInUseLine: true,
 }
 
 func Execute() {
+	var helpCmd = &cobra.Command{
+		Use: "audit",
+		Short: "使用audit命令快速列出集群问题",
+	}
 	rootCmd.SetHelpCommand(
-		nil,
+		helpCmd,
 	)
 	rootCmd.SetHelpFunc(nil)
 	rootCmd.SetHelpTemplate("")
