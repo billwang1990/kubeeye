@@ -22,8 +22,11 @@ import (
 var Verbose bool
 
 var rootCmd = &cobra.Command{
-	Use:   "ke",
+	Use:   "audit",
 	Short: "KubeEye finds various problems on Kubernetes cluster.",
+	CompletionOptions: cobra.CompletionOptions{
+		DisableDefaultCmd: true,
+	},
 }
 
 func Execute() {
