@@ -74,7 +74,7 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, na
 		FieldSelector: fieldSelectorString,
 		LabelSelector: fieldSelector.String(),
 	}
-
+	
 	versionInfo, err := clientSet.Discovery().ServerVersion()
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes serverVersion.\033[0m\n")
@@ -106,7 +106,7 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, na
 	}
 
 	deploymentsGVR := schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
-	deployments, err := dynamicClient.Resource(deploymentsGVR).List(ctx, listOptsExcludedNamespace)
+	deployments, err := dynamicClient.Resource(deploymentsGVR).Namespace(namespace).List(ctx, listOptsExcludedNamespace)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes deployments.\033[0m\n")
 	}
@@ -115,7 +115,7 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, na
 	}
 
 	daemonSetsGVR := schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "daemonsets"}
-	daemonSets, err := dynamicClient.Resource(daemonSetsGVR).List(ctx, listOptsExcludedNamespace)
+	daemonSets, err := dynamicClient.Resource(daemonSetsGVR).Namespace(namespace).List(ctx, listOptsExcludedNamespace)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes daemonSets.\033[0m\n")
 	}
@@ -124,7 +124,7 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, na
 	}
 
 	statefulSetsGVR := schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "statefulsets"}
-	statefulSets, err := dynamicClient.Resource(statefulSetsGVR).List(ctx, listOptsExcludedNamespace)
+	statefulSets, err := dynamicClient.Resource(statefulSetsGVR).Namespace(namespace).List(ctx, listOptsExcludedNamespace)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes statefulSets.\033[0m\n")
 	}
@@ -135,25 +135,25 @@ func GetK8SResources(ctx context.Context, kubernetesClient *KubernetesClient, na
 	workloadsCount = deploymentsCount + daemonsetsCount + statefulsetsCount
 
 	jobsGVR := schema.GroupVersionResource{Group: "batch", Version: "v1", Resource: "jobs"}
-	jobs, err := dynamicClient.Resource(jobsGVR).List(ctx, listOptsExcludedNamespace)
+	jobs, err := dynamicClient.Resource(jobsGVR).Namespace(namespace).List(ctx, listOptsExcludedNamespace)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes jobs.\033[0m\n")
 	}
 
 	cronjobsGVR := schema.GroupVersionResource{Group: "batch", Version: "v1", Resource: "cronjobs"}
-	cronjobs, err := dynamicClient.Resource(cronjobsGVR).List(ctx, listOptsExcludedNamespace)
+	cronjobs, err := dynamicClient.Resource(cronjobsGVR).Namespace(namespace).List(ctx, listOptsExcludedNamespace)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes cronjobs.\033[0m\n")
 	}
 
 	eventsGVR := schema.GroupVersionResource{Group: "", Version: "v1", Resource: "events"}
-	events, err := dynamicClient.Resource(eventsGVR).List(ctx, listOpts)
+	events, err := dynamicClient.Resource(eventsGVR).Namespace(namespace).List(ctx, listOpts)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes events.\033[0m\n")
 	}
 
 	rolesGVR := schema.GroupVersionResource{Group: "rbac.authorization.k8s.io", Version: "v1", Resource: "roles"}
-	roles, err := dynamicClient.Resource(rolesGVR).List(ctx, listOptsExcludedNamespace)
+	roles, err := dynamicClient.Resource(rolesGVR).Namespace(namespace).List(ctx, listOptsExcludedNamespace)
 	if err != nil {
 		fmt.Printf("\033[1;33;49mFailed to get Kubernetes roles.\033[0m\n")
 	}
