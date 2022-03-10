@@ -87,7 +87,8 @@ func (r *ClusterInsightReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	}
 
 	logs.Info("Starting cluster audit")
-	K8SResources, validationResultsChan := audit.ValidationResults(ctx, clients, "")
+	todoNamespace := ""
+	K8SResources, validationResultsChan := audit.ValidationResults(ctx, clients, "", todoNamespace)
 
 	// set cluster info
 	clusterInsight.Status.ClusterInfo = setClusterInfo(K8SResources)
