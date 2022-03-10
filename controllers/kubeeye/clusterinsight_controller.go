@@ -37,7 +37,7 @@ import (
 type ClusterInsightReconciler struct {
 	client.Client
 	Log    logr.Logger
-	Scheme *runtime.Scheme
+	// Scheme *runtime.Scheme
 }
 
 //+kubebuilder:rbac:groups=kubeeye.kubesphere.io,resources=clusterinsights,verbs=get;list;watch;create;update;patch;delete
