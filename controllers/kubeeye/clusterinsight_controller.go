@@ -20,11 +20,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/go-logr/logr"
+	// "github.com/go-logr/logr"
 	"github.com/kubesphere/kubeeye/pkg/audit"
 	"github.com/kubesphere/kubeeye/pkg/kube"
 	kubeErr "k8s.io/apimachinery/pkg/api/errors"
-	// "k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
@@ -36,8 +36,8 @@ import (
 // ClusterInsightReconciler reconciles a ClusterInsight object
 type ClusterInsightReconciler struct {
 	client.Client
-	Log    logr.Logger
-	// Scheme *runtime.Scheme
+	Scheme *runtime.Scheme
+	// Log    logr.Logger
 }
 
 //+kubebuilder:rbac:groups=kubeeye.kubesphere.io,resources=clusterinsights,verbs=get;list;watch;create;update;patch;delete
