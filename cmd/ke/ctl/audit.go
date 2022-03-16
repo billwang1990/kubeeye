@@ -30,7 +30,7 @@ var namespace string
 
 var auditCmd = &cobra.Command{
 	Use:   "audit",
-	Short: "扫描kubernetes集群中的风险项",
+	Short: "扫描k8s集群中的风险项，可以指定namespace, 如 -n training，可以用-f指定kube config",
 	Run: func(cmd *cobra.Command, args []string) {
 		err := audit.Cluster(cmd.Context(), KubeConfig, additionalregoruleputh, output, namespace)
 		if err != nil {

@@ -222,7 +222,7 @@ catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
 
 
-BINARY=kubeeye
+BINARY=helpdataos
 .PHONY: ke
 buildke:
 	GO111MODULE=on CGO_ENABLED=0 go build -a -v -o ${BINARY} cmd/ke/main.go
