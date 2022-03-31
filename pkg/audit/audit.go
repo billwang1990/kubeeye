@@ -25,11 +25,11 @@ import (
 )
 
 var (
-	workloads = "data.kubeeye_workloads_rego"
-	rbac      = "data.kubeeye_RBAC_rego"
-	nodes     = "data.kubeeye_nodes_rego"
+	workloads = "data.dataos_workloads_rego"
+	rbac      = "data.dataos_RBAC_rego"
+	nodes     = "data.dataos_nodes_rego"
 	events    = "data.kubeeye_events_rego"
-	certexp   = "data.kubeeye_certexpiration"
+	certexp   = "data.dataos_certexpiration"
 )
 
 func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh string, specifyregoruleputh string, output string, namespace string) error {

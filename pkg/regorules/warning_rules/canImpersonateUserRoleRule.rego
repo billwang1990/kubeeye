@@ -1,4 +1,4 @@
-package kubeeye_RBAC_rego
+package dataos_RBAC_rego
 
 deny[msg] {
     resource := input

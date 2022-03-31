@@ -111,13 +111,13 @@ ClusterRole                    vpnkit-controller                                
 mkdir opa
 ```
 - Add custom OPA rules files
-> Note: the OPA rule for workloads, package name must be *kubeeye_workloads_rego*
-> for RBAC, package name must be *kubeeye_RBAC_rego*
-> for nodes, package name must be *kubeeye_nodes_rego*
+> Note: the OPA rule for workloads, package name must be *dataos_workloads_rego*
+> for RBAC, package name must be *dataos_RBAC_rego*
+> for nodes, package name must be *dataos_nodes_rego*
 
 - Save the following rule to rule file such as *imageRegistryRule.rego* for audit the image registry address complies with rules.
 ```rego
-package kubeeye_workloads_rego
+package dataos_workloads_rego
 
 deny[msg] {
     resource := input

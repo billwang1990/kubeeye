@@ -111,13 +111,13 @@ ClusterRole                    vpnkit-controller                                
 mkdir opa
 ```
 - 添加自定义 OPA 规则文件
-> 注意：为检查工作负载设置的 OPA 规则， package 名称必须是 *kubeeye_workloads_rego*
-> 为检查 RBAC 设置的 OPA 规则， package 名称必须是 *kubeeye_RBAC_rego*
-> 为检查节点设置的 OPA 规则， package 名称必须是 *kubeeye_nodes_rego*
+> 注意：为检查工作负载设置的 OPA 规则， package 名称必须是 *dataos_workloads_rego*
+> 为检查 RBAC 设置的 OPA 规则， package 名称必须是 *dataos_RBAC_rego*
+> 为检查节点设置的 OPA 规则， package 名称必须是 *dataos_nodes_rego*
 
 - 以下为检查镜像仓库地址规则，保存以下规则到规则文件 *imageRegistryRule.rego*
 ```rego
-package kubeeye_workloads_rego
+package dataos_workloads_rego
 
 deny[msg] {
     resource := input

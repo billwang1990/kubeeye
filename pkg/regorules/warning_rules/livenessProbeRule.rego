@@ -1,4 +1,4 @@
-package kubeeye_workloads_rego
+package workloads_rego
 
 deny[msg] {
     resource := input

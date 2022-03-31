@@ -1,4 +1,4 @@
-package kubeeye_nodes_rego
+package dataos_nodes_rego
 
 deny[msg] {
     resource := input
