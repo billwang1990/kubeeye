@@ -32,7 +32,7 @@ var (
 	certexp   = "data.kubeeye_certexpiration"
 )
 
-func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh string, output string, namespace string) error {
+func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh string, specifyregoruleputh string, output string, namespace string) error {
 	kubeConfig, err := kube.GetKubeConfig(kubeConfigPath)
 	if err != nil {
 		return errors.Wrap(err, "Failed to load config file")
@@ -44,7 +44,7 @@ func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh 
 		return err
 	}
 
-	_, validationResultsChan := ValidationResults(ctx, clients, additionalregoruleputh, namespace)
+	_, validationResultsChan := ValidationResults(ctx, clients, additionalregoruleputh, specifyregoruleputh, namespace)
 
 	// Set the output mode, support default output JSON and CSV.
 	switch output {
@@ -64,7 +64,7 @@ func Cluster(ctx context.Context, kubeConfigPath string, additionalregoruleputh 
 	return nil
 }
 
-func ValidationResults(ctx context.Context, kubernetesClient *kube.KubernetesClient, additionalregoruleputh string, namespace string) (kube.K8SResource, <-chan []v1alpha1.AuditResults) {
+func ValidationResults(ctx context.Context, kubernetesClient *kube.KubernetesClient, additionalregoruleputh string, specifyregoruleputh string, namespace string) (kube.K8SResource, <-chan []v1alpha1.AuditResults) {
 	logs := log.FromContext(ctx)
 
 	// get kubernetes resources and put into the channel.
@@ -79,7 +79,12 @@ func ValidationResults(ctx context.Context, kubernetesClient *kube.KubernetesCli
 	k8sResources := <-kube.K8sResourcesChan
 
 	logs.Info("getting and merging the Rego rules")
-	regoRulesChan := regorules.MergeRegoRules(ctx, regorules.GetDefaultRegofile("danger_rules"), regorules.GetAdditionalRegoRulesfiles(additionalregoruleputh))
+	var regoRulesChan <-chan string
+	if specifyregoruleputh != "" {
+		regoRulesChan = regorules.MergeRegoRules(ctx, regorules.GetAdditionalRegoRulesfiles(specifyregoruleputh))
+	} else {
+		regoRulesChan = regorules.MergeRegoRules(ctx, regorules.GetDefaultRegofile("danger_rules"), regorules.GetAdditionalRegoRulesfiles(additionalregoruleputh))
+	}
 
 	logs.Info("starting audit kubernetes resources")
 	RegoRulesValidateChan := MergeRegoRulesValidate(ctx, regoRulesChan,
